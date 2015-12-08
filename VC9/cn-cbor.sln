@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cn-cbor", "cn-cbor.vcproj", "{9714309C-A7A4-4488-94CD-1B1FC0F5623D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "driver", "driver.vcproj", "{77E82131-BDFE-4D73-A1C0-B392097558AE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9714309C-A7A4-4488-94CD-1B1FC0F5623D} = {9714309C-A7A4-4488-94CD-1B1FC0F5623D}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9714309C-A7A4-4488-94CD-1B1FC0F5623D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9714309C-A7A4-4488-94CD-1B1FC0F5623D}.Debug|Win32.Build.0 = Debug|Win32
+		{9714309C-A7A4-4488-94CD-1B1FC0F5623D}.Release|Win32.ActiveCfg = Release|Win32
+		{9714309C-A7A4-4488-94CD-1B1FC0F5623D}.Release|Win32.Build.0 = Release|Win32
+		{77E82131-BDFE-4D73-A1C0-B392097558AE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{77E82131-BDFE-4D73-A1C0-B392097558AE}.Debug|Win32.Build.0 = Debug|Win32
+		{77E82131-BDFE-4D73-A1C0-B392097558AE}.Release|Win32.ActiveCfg = Release|Win32
+		{77E82131-BDFE-4D73-A1C0-B392097558AE}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

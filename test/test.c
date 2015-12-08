@@ -1,8 +1,5 @@
-#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 #include <string.h>
 
 #include "cn-cbor/cn-cbor.h"
@@ -16,6 +13,43 @@
 #define ERROR(msg, p) fprintf(stderr, "ERROR: " msg " %s\n", (p));
 
 static unsigned char* load_file(const char* filepath, unsigned char **end) {
+#if defined(_MSC_VER) || 1
+  FILE *fp;
+  size_t fsize;
+  long tell;
+  unsigned char* text;
+  
+  if ((fp = fopen(filepath, "rb")) == NULL) {
+    ERROR("can't open() file", filepath);
+    return 0;
+  }
+  if (fseek(fp, 0, SEEK_END) != 0) {
+    perror(filepath);
+    ERROR("can't seek() file", filepath);
+    return 0;
+  }
+  if ((tell = ftell(fp)) < 0L) {
+    perror(filepath);
+    ERROR("can't tell() file", filepath);
+    return 0;
+  };
+  
+  // this is not going to be freed
+  fsize = (size_t)tell;
+  if ((text = malloc(fsize+1)) == NULL) {
+    ERROR("can't malloc() file", filepath);
+    return 0;
+  }
+  if (fread(text, 1, fsize, fp) != fsize) {
+    ERROR("can't read file", filepath);
+    fclose(fp);
+    return 0;
+  }
+  fclose(fp);
+  text[fsize]='\0';
+  *end = text + fsize;
+  return text;
+#else
   struct stat st;
   if (stat(filepath, &st)==-1) {
     ERROR("can't find file", filepath);
@@ -36,14 +70,15 @@ static unsigned char* load_file(const char* filepath, unsigned char **end) {
   text[st.st_size]='\0';
   *end = text + st.st_size;
   return text;
+#endif
 }
 
 static void dump(const cn_cbor* cb, char* out, char** end, int indent) {
-  if (!cb)
-    goto done;
   int i;
   cn_cbor* cp;
   char finchar = ')';           /* most likely */
+  if (!cb)
+    goto done;
 
 #define CPY(s, l) memcpy(out, s, l); out += l;
 #define OUT(s) CPY(s, sizeof(s)-1)
@@ -114,9 +149,10 @@ int main() {
   unsigned char *end;
   char *bufend;
   unsigned char *s = load_file("cases.cbor", &end);
+  cn_cbor *cb;
   printf("%zd\n", end-s);
-  cn_cbor *cb = cn_cbor_decode(s, end-s CBOR_CONTEXT_PARAM, 0);
-  if (cb) {
+  
+  if ((cb = cn_cbor_decode(s, end-s CBOR_CONTEXT_PARAM, 0)) != NULL) {
     dump(cb, buf, &bufend, 0);
     *bufend = 0;
     printf("%s\n", buf);

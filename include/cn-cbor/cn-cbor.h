@@ -14,9 +14,7 @@ extern "C" {
 } /* Duh. */
 #endif
 
-#include <stdbool.h>
-#include <stdint.h>
-#include <unistd.h>
+#include "porting.h"
 
 /**
  * All of the different kinds of CBOR values.

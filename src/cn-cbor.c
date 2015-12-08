@@ -13,8 +13,6 @@ extern "C" {
 #include <string.h>
 #include <assert.h>
 #include <math.h>
-#include <arpa/inet.h> // needed for ntohl (e.g.) on Linux
-
 #include "cn-cbor/cn-cbor.h"
 #include "cbor.h"
 
