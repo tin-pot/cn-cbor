@@ -18,7 +18,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="4"
 			CharacterSet="2"
 			>
@@ -41,11 +41,14 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)..\include&quot;"
+				PreprocessorDefinitions="USE_CBOR_CONTEXT=1"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				TreatWChar_tAsBuiltInType="false"
 				WarningLevel="3"
 				DebugInformationFormat="4"
+				CompileAs="1"
 				DisableSpecificWarnings="4244"
 			/>
 			<Tool
@@ -79,7 +82,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="4"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
@@ -104,10 +107,13 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)..\include&quot;"
+				PreprocessorDefinitions="USE_CBOR_CONTEXT=1"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
+				TreatWChar_tAsBuiltInType="false"
 				WarningLevel="3"
 				DebugInformationFormat="3"
+				CompileAs="1"
 				DisableSpecificWarnings="4244"
 			/>
 			<Tool
