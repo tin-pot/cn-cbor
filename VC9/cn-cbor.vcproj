@@ -178,6 +178,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\cn-cbor\cn-cbor.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\cn-cbor\porting.h"
 				>
 			</File>
