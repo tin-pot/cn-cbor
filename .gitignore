@@ -2,3 +2,6 @@ cntest
 new.out
 *.o
 build
+VC9/Debug
+VC9/Release
+VC9/Release_MT
