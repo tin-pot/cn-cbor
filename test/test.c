@@ -33,6 +33,11 @@ static unsigned char* load_file(const char* filepath, unsigned char **end) {
     ERROR("can't tell() file", filepath);
     return 0;
   };
+  if (fseek(fp, 0, SEEK_SET) != 0) {
+    perror(filepath);
+    ERROR("can't seek() file", filepath);
+    return 0;
+  }
   
   // this is not going to be freed
   fsize = (size_t)tell;
