@@ -138,11 +138,9 @@ typedef enum cn_cbor_error {
 } cn_cbor_error;
 
 /**
- * Strings matching the `cn_cbor_error` conditions.
- *
- * @todo: turn into a function to make the type safety more clear?
+ * Strings for `cn_cbor_error` conditions.
  */
-extern const char *cn_cbor_error_str[];
+const char *cn_cbor_strerror(cn_cbor_error);
 
 /**
  * Errors
