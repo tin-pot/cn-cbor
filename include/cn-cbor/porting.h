@@ -2,13 +2,11 @@
 #define PORTING_H_INCLUDED
 
 #ifdef _WIN32
-# include <stdlib.h>
-# include <sys/stat.h>
-# include <fcntl.h>
+# include <stdlib.h> /* _byteswap_*() */
 
-# define bool char
-# define true 1
-# define false 0
+# define bool     char
+# define true        1
+# define false       0
 
 typedef unsigned  char   uint8_t;
 typedef unsigned  short  uint16_t;
