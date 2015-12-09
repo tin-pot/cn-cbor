@@ -71,6 +71,30 @@ struct parse_buf {
   cn_cbor_error err;
 };
 
+#define NEED(N)					\
+    if (N > (size_t)(ebuf-pos)) {		\
+        CN_CBOR_FAIL(CN_CBOR_ERR_OUT_OF_DATA);	\
+    }
+        
+#define TAKE_(N) do {				\
+    val = 0U;					\
+    NEED(N);					\
+    switch (N) {				\
+    case 8:					\
+       val = (val << 8) | *pos++;		\
+       val = (val << 8) | *pos++;		\
+       val = (val << 8) | *pos++;		\
+       val = (val << 8) | *pos++;		\
+    case 4:					\
+       val = (val << 8) | *pos++;		\
+       val = (val << 8) | *pos++;		\
+    case 2:					\
+       val = (val << 8) | *pos++;		\
+    case 1:					\
+       val = (val << 8) | *pos++;		\
+    }						\
+} while (0)
+
 #define TAKE(pos, ebuf, n, stmt)                \
   if (n > (size_t)(ebuf - pos))                 \
     CN_CBOR_FAIL(CN_CBOR_ERR_OUT_OF_DATA);      \
@@ -98,7 +122,9 @@ static cn_cbor *decode_item (struct parse_buf *pb CBOR_CONTEXT, cn_cbor* top_par
 #endif /* CBOR_NO_FLOAT */
 
 again:
-  TAKE(pos, ebuf, 1, ib = ntoh8p(pos) );
+  /*TAKE(pos, ebuf, 1, ib = ntoh8p(pos) );*/
+  TAKE_(1);
+  ib = val;
   if (ib == IB_BREAK) {
     if (!(parent->flags & CN_CBOR_FL_INDEF))
       CN_CBOR_FAIL(CN_CBOR_ERR_BREAK_OUTSIDE_INDEF);
@@ -133,10 +159,10 @@ again:
   parent->length++;
 
   switch (ai) {
-  case AI_1: TAKE(pos, ebuf, 1, val = ntoh8p(pos)) ; break;
-  case AI_2: TAKE(pos, ebuf, 2, val = ntoh16p(pos)) ; break;
-  case AI_4: TAKE(pos, ebuf, 4, val = ntoh32p(pos)) ; break;
-  case AI_8: TAKE(pos, ebuf, 8, val = ntoh64p(pos)) ; break;
+  case AI_1: TAKE_(1); /*TAKE(pos, ebuf, 1, val = ntoh8p(pos)) ;*/ break;
+  case AI_2: TAKE_(2); /*TAKE(pos, ebuf, 2, val = ntoh16p(pos)) ;*/ break;
+  case AI_4: TAKE_(4); /*TAKE(pos, ebuf, 4, val = ntoh32p(pos)) ;*/ break;
+  case AI_8: TAKE_(8); /*TAKE(pos, ebuf, 8, val = ntoh64p(pos)) ;*/ break;
   case 28: case 29: case 30: CN_CBOR_FAIL(CN_CBOR_ERR_RESERVED_AI);
   case AI_INDEF:
     if ((mt - MT_BYTES) <= MT_MAP) {
